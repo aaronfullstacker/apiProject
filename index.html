@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>coiner</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Live report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Coin Name" aria-label="Search"
+                        id="search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="searchByName">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row" id="all">
+                <!--template -->
+
+            </div>
+        </div>
+        </div>
+    </main>
+    <script>
+        var AllCoins = [];
+        $.ajax({
+            url: 'coins.json',
+            method: 'GET'
+        }).done(function (res) {
+            if (typeof res === 'string')
+                res = JSON.parse(res);
+            AllCoins = res;
+            htmlCoin(AllCoins);
+            console.log(AllCoins);
+        });
+
+
+        function htmlCoin(AllCoins) {
+            $('#all').empty();
+            let template = '';
+
+            for (let coin of AllCoins) {
+                template +=`
+                    <div class="col-4">
+                        <div class="card" style="width: 13.5rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Name:${coin.name}</h5>
+                                <p class="card-text">symbol:${coin.symbol}</p>
+                                <div class="panel panel-defult">
+                                    <div class="panel-heading">
+                                        <a href="#${coin.id}" class="btn btn-primary" data-toggle="collapse">More info</a>
+                                    </div>
+                                    <div class="panel-body collapse in" id="${coin.id}">
+                                        <div>
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+            $("#all").append(template)
+        }
+
+        $('#myCollapsible').on('show.bs.collapse', function () {
+            // do something…
+            
+        })
+
+        $('#searchByName').click(function (e) {
+            e.preventDefault(e);
+
+            const val = $('#search').val();
+
+            const search4 = AllCoins.filter(AllCoins => AllCoins.id.indexOf(val) > -1);
+            htmlCoin(search4);
+            console.log(search4);
+        })
+    </script>
+</body>
+
+</html>

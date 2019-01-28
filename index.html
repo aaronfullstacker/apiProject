@@ -68,7 +68,7 @@
             let template = '';
 
             for (let coin of AllCoins) {
-                template +=`
+                template += `
                     <div class="col-4">
                         <div class="card" style="width: 13.5rem;">
                             <div class="card-body">
@@ -76,9 +76,9 @@
                                 <p class="card-text">symbol:${coin.symbol}</p>
                                 <div class="panel panel-defult">
                                     <div class="panel-heading">
-                                        <a href="#${coin.id}" class="btn btn-primary" data-toggle="collapse">More info</a>
+                                        <a href="#_${coin.id}" class="btn btn-primary" data-toggle="collapse">More info</a>
                                     </div>
-                                    <div class="panel-body collapse in" id="${coin.id}">
+                                    <div class="panel-body collapse in" id="_${coin.id}">
                                         <div>
                                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
@@ -89,13 +89,15 @@
                     </div>
                 `
             }
-            $("#all").append(template)
+            $("#all").append(template);
+
+            $('.collapse').on('show.bs.collapse', function () {
+                // do something…
+                console.log(1)
+
+            })
         }
 
-        $('#myCollapsible').on('show.bs.collapse', function () {
-            // do something…
-            
-        })
 
         $('#searchByName').click(function (e) {
             e.preventDefault(e);
@@ -104,7 +106,7 @@
 
             const search4 = AllCoins.filter(AllCoins => AllCoins.id.indexOf(val) > -1);
             htmlCoin(search4);
-            console.log(search4);
+            console.log(search4 + 'hello');
         })
     </script>
 </body>

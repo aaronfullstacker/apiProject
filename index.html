@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>coiner</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css"> j
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
@@ -50,6 +51,8 @@
         </div>
     </main>
     <script>
+
+
         var AllCoins = [];
         $.ajax({
             url: 'coins.json',
@@ -62,6 +65,26 @@
             console.log(AllCoins);
         });
 
+        function a(id) {
+            $.ajax({
+                url: `https://api.coingecko.com/api/v3/coins/` + id,
+                method: 'GET'
+            }).done(function (res) {
+                if (typeof res === 'string')
+                    res = JSON.parse(res);
+                aCoins = res;
+                const temp2 = `
+                            <hr>
+                            <img src="${aCoins.image.thumb}">
+                            <div>${aCoins.market_data.current_price.usd}.$</div>
+                            <div>${aCoins.market_data.current_price.eur}.€</div>
+                            <div>${aCoins.market_data.current_price.ils}.₪</div>`
+
+                $(`#${id}`).append(temp2);
+            });
+
+
+        }
 
         function htmlCoin(AllCoins) {
             $('#all').empty();
@@ -72,16 +95,22 @@
                     <div class="col-4">
                         <div class="card" style="width: 13.5rem;">
                             <div class="card-body">
+                               
                                 <h5 class="card-title">Name:${coin.name}</h5>
                                 <p class="card-text">symbol:${coin.symbol}</p>
                                 <div class="panel panel-defult">
+                                        <label class="switch">
+                                        <input onclick="till5('${coin.symbol}')" type="checkbox">
+                                        <span class="slider round"></span>
+                                        </label>
                                     <div class="panel-heading">
-                                        <a href="#_${coin.id}" class="btn btn-primary" data-toggle="collapse">More info</a>
+                                        <a href="#_${coin.id}" onclick="a('${coin.id}')" class="btn btn-primary" data-toggle="collapse">More info</a>
                                     </div>
+                                    
                                     <div class="panel-body collapse in" id="_${coin.id}">
-                                        <div>
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                        </div>
+                                        <div id=${coin.id}>
+                                          
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -89,14 +118,35 @@
                     </div>
                 `
             }
+
             $("#all").append(template);
 
-            $('.collapse').on('show.bs.collapse', function () {
-                // do something…
-                console.log(1)
 
-            })
         }
+
+        var theFive = [];
+        function till5(symbol) {
+            symbol = symbol.toUpperCase();
+
+            if (theFive.length < 5) {
+                console.log(1);
+                var symbIndex = theFive.indexOf(symbol);
+                if (symbIndex === -1) {
+                    theFive.push(symbol);
+                } else {
+                    theFive.splice(symbIndex, 1);
+                }
+            }
+            debugger
+
+        }
+
+
+        $('.collapse').on('show.bs.collapse', function () {
+            let newId = template.replace('_', '');
+            console.log(newId);
+
+        });
 
 
         $('#searchByName').click(function (e) {

@@ -27,10 +27,10 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Live report</a>
+                        <a class="nav-link" href="liveReport.html">Live report</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="a.html">About</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -126,6 +126,7 @@
 
         var theFive = [];
         function till5(symbol) {
+            debugger
             symbol = symbol.toUpperCase();
 
             if (theFive.length < 5) {
@@ -137,7 +138,7 @@
                     theFive.splice(symbIndex, 1);
                 }
             }
-            debugger
+          
 
         }
 
@@ -158,6 +159,8 @@
             htmlCoin(search4);
             console.log(search4 + 'hello');
         })
+
+
     </script>
 </body>
 
